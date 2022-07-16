@@ -1,0 +1,44 @@
+pair<int,int> missingAndRepeating(vector<int> &arr, int n)
+{ 
+    int axor=arr[0];
+    for(int i=1;i<n;i++){
+        axor=axor^arr[i];
+    }
+	for(int i=1;i<=n;i++){
+        axor=axor^i;
+    }
+    int set_bit ;
+    set_bit = axor & ~(axor-1);
+    
+    int miss=0 , dup=0;
+    for(int i=0;i<n;i++){
+        if(set_bit & arr[i]){
+            miss=miss^arr[i];
+        }else{
+            dup=dup^arr[i];
+        }
+    }
+    for(int i=1;i<=n;i++){
+        if(set_bit & i){
+            miss=miss^i;
+        }else{
+            dup=dup^i;
+        }
+    }
+    int x_count = 0;
+    for (int i=0; i<n; i++) {
+        if (arr[i]==miss)
+            x_count++;
+    }
+    
+    pair<int,int>p;
+    if(x_count){
+        p.first=dup;
+    p.second=miss;
+    }else{
+        p.first=miss;
+    p.second=dup;
+    }
+    
+    return p;
+}
